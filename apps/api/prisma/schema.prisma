@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// 查詢歷史紀錄。
+/// 注意：這裡「絕不」儲存哩程帳號的密碼或2FA驗證碼，只保存查詢條件與查詢結果，
+/// 供使用者稍後回顧曾經查過的航線/日期與可兌換機票。
+model SearchHistory {
+  id          String   @id @default(cuid())
+  providerId  String
+  origin      String
+  destination String
+  departDate  String
+  returnDate  String?
+  cabin       String
+  adults      Int
+  children    Int      @default(0)
+  resultCount Int
+  resultsJson String
+  createdAt   DateTime @default(now())
+}
